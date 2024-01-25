@@ -60,5 +60,3 @@ STRING wget -O allow_permission_mac 'https://dl-web.dropbox.com/scl/fi/k43jcnjle
 ENTER
 DELAY 10000 
 GUI w
-DELAY 500
-ENTER
