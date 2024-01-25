@@ -14,8 +14,8 @@ Phantom Audio Capturer, developed by Narsty and updated by YonKu0, is an advance
 - `sox` (Install via Homebrew: `brew install sox`)
 
 ## Usage
-1. Execute the script on the target MacOS device.
-2. The script automatically starts recording audio in the background.
+1. Execute the ducky script on the target MacOS device.
+2. The script automatically starts recording audio in the background. (It may ask for screen-sharing permission)
 3. To access the recordings, navigate to `~/.phantom_audio`.
 
 ## Stopping the Recording
