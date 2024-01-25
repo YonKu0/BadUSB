@@ -15,7 +15,7 @@ def load_templates(template_paths):
             print(f"Warning: Template image at '{path}' could not be loaded.")
     return templates
 
-def find_button_on_screen(templates, scale_range=(0.5, 1.0), scale_step=5, threshold=0.8): 
+def find_button_on_screen(templates, scale_range=(0.5, 1.0), scale_step=5, threshold=0.9): 
     screen = screeninfo.get_monitors()[0]
     roi = (0, 0, screen.width, screen.height) 
     full_image = pyautogui.screenshot(region=roi)
