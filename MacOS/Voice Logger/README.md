@@ -1,7 +1,7 @@
 # Phantom Audio Capturer
 
 ## Description
-Phantom Audio Capturer is a macOS payload developed by Narsty and updated by me. It discreetly records audio through the microphone and saves it as an MP3 file in a hidden folder. The script uses `sox` for recording and automates microphone permission with `pyautogui` and `cv2`. 
+Phantom Audio Capturer is a macOS payload developed by Narsty and updated by YonKu0 to allow automatic mic permission. It discreetly records audio through the microphone and saves it as an MP3 file in a hidden folder. The script uses `sox` for recording and automates microphone permission with `pyautogui` and `cv2`. 
 
 ## Features
 - Creates a hidden folder `.phantom_audio` for recordings.
