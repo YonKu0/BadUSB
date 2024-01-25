@@ -1,3 +1,4 @@
+# For Compiling  pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image4.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image5.jpg:allow_button_images" allow_permission_mac.py
 import cv2
 import numpy as np
 import pyautogui
@@ -67,5 +68,3 @@ if button_position:
 else:
     print("Allow button not found")
 
-
-# For Compiling  pyinstaller --onefile --add-data "allow_button_images/allow_button_image.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image1.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image2.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image3.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image4.jpg:allow_button_images" --add-data "allow_button_images/allow_button_image5.jpg:allow_button_images" allow_permission_mac.py

@@ -1,3 +1,4 @@
+// For Compiling : packr2 && go build -o allow_permission_mac_go && packr2 clean
 package main
 
 import (
