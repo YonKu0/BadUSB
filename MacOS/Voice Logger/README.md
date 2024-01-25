@@ -27,7 +27,7 @@ Phantom Audio Capturer, developed by Narsty and updated by YonKu0, is an advance
 
 ## Go Script (Currently used) 
 - Function: Handles automated microphone permission via a Golang script.
-- For re-compilation: Download the Voice Logger directory and run: `// For Compiling : packr2 && go build -o allow_permission_mac_go && packr2 clean`
+- For re-compilation: Download the Voice Logger directory and run: `packr2 && go build -o allow_permission_mac_go && packr2 clean`
 
 ## Python Script Alternative (Slower and heavier)
 - Function: An alternative Python script for handling microphone permissions.
