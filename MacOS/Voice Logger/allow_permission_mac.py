@@ -66,4 +66,4 @@ else:
     print("Allow button not found")
 
 
-# For Compiling  pyinstaller --onefile --add-data "./allow_button_image.jpg:." --add-data "./allow_button_image1.jpg:." --add-data "./allow_button_image2.jpg:." --add-data "./allow_button_image3.jpg:." allow_premission_mac.py
+# For Compiling  pyinstaller --onefile --add-data "./allow_button_image.jpg:." --add-data "./allow_button_image1.jpg:." --add-data "./allow_button_image2.jpg:." --add-data "./allow_button_image3.jpg:." allow_permission_mac.py
