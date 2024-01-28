@@ -11,13 +11,13 @@ source ~/.bashrc
 tccutil reset Microphone com.apple.Terminal
 
 # Create the .phantom_audio directory and navigate into it
-if [ ! -d ~/.phantom_audio ]; then
-    mkdir -p ~/.phantom_audio
-fi
-cd ~/.phantom_audio || {
-    echo "Failed to navigate to .phantom_audio directory"
-    exit 1
-}
+# if [ ! -d ~/.phantom_audio ]; then
+#     mkdir -p ~/.phantom_audio
+# fi
+# cd ~/.phantom_audio || {
+#     echo "Failed to navigate to .phantom_audio directory"
+#     exit 1
+# }
 
 # Installing "brew" and "sox" voice recording dependency
 if ! command -v brew &>/dev/null; then
