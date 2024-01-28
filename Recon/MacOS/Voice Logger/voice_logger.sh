@@ -52,4 +52,4 @@ chmod +x allow_permission_mac_go
 nohup python3 record.py
 sleep 0.5
 ./allow_permission_mac_go
-disown
+exit
