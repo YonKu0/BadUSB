@@ -8,6 +8,7 @@ tccutil reset Microphone com.apple.Terminal
 # Installing "brew" and "sox" voice recording dependency
 if ! command -v brew &>/dev/null; then
     echo "Installing Homebrew..."
+    export NONINTERACTIVE=1
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
         echo "Failed to install Homebrew"
         exit 1
