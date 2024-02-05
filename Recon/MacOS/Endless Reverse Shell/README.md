@@ -50,9 +50,7 @@ The BadUSB Payload:
 
 - **Standard Shell Environment:** Enhances the shell for command execution without leaving history.
     
-    `script -q /dev/null bash`
-  
-    `unset HISTFILE; set +o history && export PS1='\u@\h:\w\$'`
+    `script -q /dev/null bash` and then `unset HISTFILE; set +o history && export PS1='\u@\h:\w\$'`
     
 - **Executing Privileged Commands:** Executes commands as **`sudo`** without logging.
     
