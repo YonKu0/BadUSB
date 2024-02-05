@@ -57,7 +57,7 @@ The BadUSB Payload:
     
     `unset HISTFILE; set +o history && echo "password" | sudo -S whoami` 
     
-- **Root Access:** Switch to root without command logging.
+- **Root Access:** After Switching to root execute this for not logging commands.
     
     `unset HISTFILE`
     
