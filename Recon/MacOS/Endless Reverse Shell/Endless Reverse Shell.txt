@@ -1,6 +1,3 @@
-REM 
-
-
 REM Title: Endless Reverse Shell.txt
 REM Author: YonKu0
 REM Target: MacOS 
